@@ -1,48 +1,40 @@
+import java.sql.Array;
 import java.util.Optional;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         {
-            Fraction f1, f2, f3, f4, newFraction = null;
-            f1 = new Fraction(1,3);
-            f2 = new Fraction(2,5);
-            f3 = new Fraction(7,8);
-            f4 = new Fraction(5);
+            String newName;
+            int gradesNum;
+            Student newStudent;
 
-            newFraction = fractionSum(f1,f2);
-            System.out.println("1/3+2/5 = "+newFraction.toString());
-            newFraction = fractionSum(newFraction,f3);
-            System.out.println("1/3+2/5+7/8 = "+newFraction.toString());
-            newFraction= fractionDifference(newFraction,f4);
-            System.out.println("1/3+2/5+7/8-5 = "+newFraction.toString());
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Введите имя ");
+            newName = scanner.nextLine();
+            System.out.println("Сколько оценок будет укзано для студента? ");
+            gradesNum = scanner.nextInt();
+            int[] initGrades = new int[gradesNum];
+            System.out.println("Введите оценки от 2 до 5 ");
+//заполнение массива оценок
+            for (int i = 0; i < gradesNum; i++) {
+                int g = scanner.nextInt();
+                if (g > 1 && g < 6) {
+                    initGrades[i] = g;
+                } else {
+                    i -= 1;
+                    System.out.println("введите оценку еще раз в диапазоне от 2 до 5");
+                }
+            }
+            //инициация Студента
+            newStudent = new Student(newName,initGrades);
+            System.out.println("Студент "+newStudent.toString());
 
+            //добавление тому же студенту оценки
+            newStudent.addGrade();
+            System.out.println("Студент "+newStudent.toString());
         }
     }
-
-    private static Fraction fractionDifference(Fraction f1, Fraction f2) {
-        int ax = f1.getNumerator();
-        int ay = f1.getDenominator();
-
-        int bx = f2.getNumerator();
-        int by = f2.getDenominator();
-
-        int sumOfNumerators = ax * by - bx * ay;
-        int commonDenominator = ay * by;
-        Fraction result = new Fraction(sumOfNumerators, commonDenominator);
-        return result;
-    }
-
-    private static Fraction fractionSum(Fraction f1, Fraction f2) {
-        int ax = f1.getNumerator();
-        int ay = f1.getDenominator();
-
-        int bx = f2.getNumerator();
-        int by = f2.getDenominator();
-
-        int sumOfNumerators = ax * by + bx * ay;
-        int commonDenominator = ay * by;
-        Fraction result = new Fraction(sumOfNumerators, commonDenominator);
-        return result;
-    }
 }
+
+
