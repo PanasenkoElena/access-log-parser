@@ -2,10 +2,10 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        {
-            System.out.println("Введите текст и нажмите <Enter>:");
-            String text = new Scanner(System.in).nextLine();
-            System.out.println("Длинна текста: " + text.length());
-        }
+int x=1;
+int y=2;
+int z=3;
+Point3D p1= new Point3D(x,y,z);
+        System.out.println(p1);
     }
 }
