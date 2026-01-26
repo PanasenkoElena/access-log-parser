@@ -12,11 +12,25 @@ public class Main {
         Point p2 = new Point(4, 3);
         Point p3 = new Point(7, 6);
         Point p4 = new Point(10, 9);
-        PolyLine l1 = new PolyLine(p1, p2, p3, p4);
-        ClosedPolyLine cl1 = new ClosedPolyLine(l1);
 
-        System.out.println("Длина ломаной = "+l1.length());
-        System.out.println("Длина замкнутой линии = "+cl1.length());
+        Line l1 = new Line(p1,p4);
+        PolyLine pl1 = new PolyLine(p1, p2, p3, p4);
+        ClosedPolyLine cl1 = new ClosedPolyLine(pl1);
+
+     //   System.out.println("Длина ломаной = "+pl1.getLength());
+     //   System.out.println("Длина замкнутой линии = "+cl1.getLength());
+        calcLength(pl1, cl1);
 
     }
+   public static void calcLength(Measurable...measurables){
+       int size = measurables.length;
+       double calculatedLength;
+           for (int i=0;i<=size-1;i++){
+               calculatedLength=measurables[i].getLength();
+               System.out.println("Длина "+measurables[i].getCustomName()+" ="+calculatedLength);
+           }
+
+
+
+   }
 }
