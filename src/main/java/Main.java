@@ -6,7 +6,7 @@ public class Main {
         int y = 2;
         int z = 3;
         Point3D p0 = new Point3D(x, y, z);
-        System.out.println(p0);*/
+        System.out.println(p0);
         NewString newString = new NewString("newStringnewStringnewStringnewString");
         Point p1 = new Point(1, 0);
         Point p2 = new Point(4, 3);
@@ -15,15 +15,19 @@ public class Main {
 
         Line l1 = new Line(p1, p4);
         PolyLine pl1 = new PolyLine(p1, p2, p3, p4);
-        ClosedPolyLine cl1 = new ClosedPolyLine(pl1);
-
+        ClosedPolyLine cl1 = new ClosedPolyLine(pl1);*/
         //   System.out.println("Длина ломаной = "+pl1.getLength());
         //   System.out.println("Длина замкнутой линии = "+cl1.getLength());
-        calcLength(pl1, cl1, newString);
+        //calcLength(pl1, cl1, newString);
 
+Fraction f=new Fraction(1231,199);
+        System.out.println("f.intValue()= "+f.intValue());
+        System.out.println("f.longValue()= "+f.longValue());
+        System.out.println("f.floatValue()= "+f.floatValue());
+        System.out.println("f.doubleValue()= "+f.doubleValue());
     }
 
-    public static void calcLength(Measurable... measurables) {
+    /*public static void calcLength(Measurable... measurables) {
         int size = measurables.length;
         double calculatedLength;
         for (int i = 0; i <= size - 1; i++) {
@@ -31,4 +35,5 @@ public class Main {
             System.out.println("Длина " + measurables[i].getCustomName() + " =" + calculatedLength);
         }
     }
+    */
 }
