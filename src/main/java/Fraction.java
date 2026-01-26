@@ -12,22 +12,19 @@ public class Fraction extends Number{
 
     @Override
     public  int intValue(){
-        int res=(int) (this.num/this.denum);
-        return res;
+        return (int) (this.num/this.denum);
     }
 
     public long longValue(){
-        long res=(long) (this.num/this.denum);
-        return res;
+        return (long) (this.num/ this.denum);
     }
 
     public float floatValue(){
-        float res=(long) (this.num/this.denum);
-        return res;
+        return ((float)this.num/(float)this.denum);
     }
 
     public double doubleValue(){
-        double res=(long) (this.num/this.denum);
-        return res;
+
+        return  ((double)this.num/(double)this.denum);
     }
 }
