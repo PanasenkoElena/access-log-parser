@@ -11,6 +11,11 @@ class Point {
         String str = "Точка:{" + x + ";" + y + "}";
         return str;
     }
+  public void setCoordinates(int x,int y){
+    this.x = x;
+    this.y = y;
+}
+
 }
 
 class Point3D extends Point {

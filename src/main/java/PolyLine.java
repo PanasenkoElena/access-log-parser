@@ -14,6 +14,23 @@ public class PolyLine extends Line{
         }
         return sum;
     }
+   public String linesArraytoString(Line[] lines) {
+        String linesArray = "Массив Линий [";
+        for (int i = 0; i < lines.length; i++) {
+            linesArray = linesArray +  i+"ая " + lines[i].toString() + ",";
+        }
+        linesArray = linesArray.substring(0, linesArray.length() - 1) + "]";
+        return linesArray;
+    }
+      @Override
+    public String toString() {
+        String polyLine = "Линия [";
+        for (int i = 0; i < numberOfPoints; i++) {
+            polyLine = polyLine + " T" + i + t[i].toString() + ",";
+        }
+        polyLine = polyLine.substring(0, polyLine.length() - 1) + "]";
+        return polyLine;
+    }
 }
 
 class ClosedPolyLine extends PolyLine {

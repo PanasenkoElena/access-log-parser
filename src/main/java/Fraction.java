@@ -1,39 +1,45 @@
-public class Fraction extends Number{
-    int num,denum;
+import java.util.Optional;
 
-    public Fraction(int num, int denum) {
-        this.num = num;
-        if (denum<1) {
+public class Fraction extends Number{
+    private int  numerator;
+    private int denominator;
+
+    //конструктор
+    public Fraction(int numerator, int denominator) {
+        this.numerator = numerator;
+        if (denominator<1) {
             throw new IllegalArgumentException("знаменатель должен быть больше 0!");
         }
-        this.denum = denum;//Для целого числа знаменатель будет Null
+        this.denominator = denominator;//Для целого числа знаменатель будет Null
     }
-    public Fraction (int num){
-        this.num = num;
-        this.denum=1;
+    public Fraction (int numerator){
+        this.numerator = numerator;
+        this.denominator=1;
     }
-    public int getNum() {
-        return num;
+    //getter-setter
+    public int getNumerator() {
+        return numerator;
     }
-    public void setNum(int num) {
-        this.num = num;
+    public void setNumerator(int numerator) {
+        this.numerator = numerator;
     }
-    public int getDenum() {
-        return denum;
+    public int getDenominator() {
+        return denominator;
     }
-    public void setDenum(int denum) {
-        this.denum = denum;
-    }
-
-    public String toString() {
-        return num + "/" + denum;
+    public void setDenominator(int denominator) {
+        this.denominator = denominator;
     }
 
+    //Вывод в строку
     @Override
+    public String toString() {
+        String fractionString = numerator + "/" + denominator;
+        return fractionString;
+    }
+ @Override
     public int intValue(){
         return (int) (this.num/this.denum);
     }
-
     @Override
     public long longValue(){
         return (long) (this.num/ this.denum);
@@ -49,5 +55,5 @@ public class Fraction extends Number{
     double getSum(double sum){
      sum=sum+this.doubleValue();
         return sum;
-    };
+    }
 }
