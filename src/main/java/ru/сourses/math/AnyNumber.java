@@ -1,4 +1,6 @@
-public class AnyNumber extends Number implements Sumable{
+package ru.сourses.math;
+
+public class AnyNumber extends Number implements Sumable {
     double n;
 
     public AnyNumber(double n) {

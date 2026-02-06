@@ -1,4 +1,6 @@
-public class Line implements Measurable{
+package ru.сourses.geometry;
+
+public class Line implements Measurable {
     Point points[];
 
     public Line(Point... points) {

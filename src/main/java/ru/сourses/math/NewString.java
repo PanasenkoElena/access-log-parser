@@ -1,3 +1,7 @@
+package ru.сourses.math;
+
+import ru.сourses.geometry.Measurable;
+
 public class NewString implements Measurable {
     String newString;
 

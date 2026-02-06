@@ -1,39 +1,39 @@
-import java.util.Optional;
+package ru.сourses.math;
 
 public class Fraction extends Number{
-    private int  numerator;
-    private int denominator;
+    private int num;
+    private int denum;
 
     //конструктор
     public Fraction(int numerator, int denominator) {
-        this.numerator = numerator;
+        this.num = numerator;
         if (denominator<1) {
             throw new IllegalArgumentException("знаменатель должен быть больше 0!");
         }
-        this.denominator = denominator;//Для целого числа знаменатель будет Null
+        this.denum = denominator;//Для целого числа знаменатель будет Null
     }
     public Fraction (int numerator){
-        this.numerator = numerator;
-        this.denominator=1;
+        this.num = numerator;
+        this.denum =1;
     }
     //getter-setter
-    public int getNumerator() {
-        return numerator;
+    public int getNum() {
+        return num;
     }
-    public void setNumerator(int numerator) {
-        this.numerator = numerator;
+    public void setNum(int num) {
+        this.num = num;
     }
-    public int getDenominator() {
-        return denominator;
+    public int getDenum() {
+        return denum;
     }
-    public void setDenominator(int denominator) {
-        this.denominator = denominator;
+    public void setDenum(int denum) {
+        this.denum = denum;
     }
 
     //Вывод в строку
     @Override
     public String toString() {
-        String fractionString = numerator + "/" + denominator;
+        String fractionString = num + "/" + denum;
         return fractionString;
     }
  @Override
@@ -52,7 +52,7 @@ public class Fraction extends Number{
     public double doubleValue(){
         return  ((double)this.num/(double)this.denum);
     }
-    double getSum(double sum){
+    public double getSum(double sum){
      sum=sum+this.doubleValue();
         return sum;
     }

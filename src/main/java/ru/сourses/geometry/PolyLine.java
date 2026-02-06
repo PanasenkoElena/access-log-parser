@@ -1,4 +1,6 @@
-public class PolyLine extends Line{
+package ru.сourses.geometry;
+
+public class PolyLine extends Line {
     Point[] points;
 
     public PolyLine(Point... points) {
@@ -25,8 +27,8 @@ public class PolyLine extends Line{
       @Override
     public String toString() {
         String polyLine = "Линия [";
-        for (int i = 0; i < numberOfPoints; i++) {
-            polyLine = polyLine + " T" + i + t[i].toString() + ",";
+        for (int i = 0; i < points.length; i++) {
+            polyLine = polyLine + " T" + i + points[i].toString() + ",";
         }
         polyLine = polyLine.substring(0, polyLine.length() - 1) + "]";
         return polyLine;
