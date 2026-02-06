@@ -1,6 +1,6 @@
 import java.util.Optional;
 
-public final class Fraction {
+public class Fraction extends Number{
     private int  numerator;
     private int denominator;
 
@@ -12,14 +12,10 @@ public final class Fraction {
         }
         this.denominator = denominator;//Для целого числа знаменатель будет Null
     }
-
     public Fraction (int numerator){
         this.numerator = numerator;
         this.denominator=1;
     }
-
-
-
     //getter-setter
     public int getNumerator() {
         return numerator;
@@ -40,7 +36,24 @@ public final class Fraction {
         String fractionString = numerator + "/" + denominator;
         return fractionString;
     }
-
-
-
+ @Override
+    public int intValue(){
+        return (int) (this.num/this.denum);
+    }
+    @Override
+    public long longValue(){
+        return (long) (this.num/ this.denum);
+    }
+    @Override
+    public float floatValue(){
+        return ((float)this.num/(float)this.denum);
+    }
+    @Override
+    public double doubleValue(){
+        return  ((double)this.num/(double)this.denum);
+    }
+    double getSum(double sum){
+     sum=sum+this.doubleValue();
+        return sum;
+    }
 }
