@@ -1,3 +1,5 @@
+package ru.сourses.geometry;
+
 class Point {
     int x, y;
 
