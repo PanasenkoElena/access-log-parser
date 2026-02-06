@@ -1,3 +1,4 @@
+package ru.сourses.main;
 
 import ru.сourses.math.AnyNumber;
 import ru.сourses.math.Fraction;

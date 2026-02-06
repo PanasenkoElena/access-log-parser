@@ -39,7 +39,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>Main</mainClass>
+                            <mainClass>ru.сourses.main.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
