@@ -1,12 +1,14 @@
 package ru.сourses.main;
 
+import ru.сourses.math.Fraction;
+
 import java.awt.Point;
 import java.util.Scanner;
 
 import static ru.сourses.math.Pow.pow;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CloneNotSupportedException {
         {
             /*  double sum;
             AnyNumber n;
@@ -102,7 +104,7 @@ public class Main {
             n = new AnyNumber(1);
             sum = n.getSum(sum);
             System.out.println("Сумма по третьей строке = " + sum);*/
-            Scanner scanner = new Scanner(System.in);
+          /*  Scanner scanner = new Scanner(System.in);
             System.out.println("Введите Х ");
             String x= scanner.nextLine();
             System.out.println("Введите Y ");
@@ -117,12 +119,15 @@ public class Main {
             System.out.println("awt.Point = "+p1);
             ru.сourses.geometry.Point p2= new ru.сourses.geometry.Point(c1+1,c2+1);
             System.out.println("ru.сourses.geometry.Point = "+p2);
-
+*/
+            Fraction f1 = new Fraction(1, 2);
+            Fraction f2 = f1.clone();
+            System.out.println(f2.equals(f1));
+            System.out.println(f2 == f1);
 
 
         }
     }
-
 
 
 }
