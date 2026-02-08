@@ -1,8 +1,8 @@
 package ru.сourses.main;
 
+import ru.сourses.geometry.*;
 import ru.сourses.math.Fraction;
 
-import java.awt.Point;
 import java.util.Scanner;
 
 import static ru.сourses.math.Pow.pow;
@@ -120,12 +120,19 @@ public class Main {
             ru.сourses.geometry.Point p2= new ru.сourses.geometry.Point(c1+1,c2+1);
             System.out.println("ru.сourses.geometry.Point = "+p2);
 */
-            Fraction f1 = new Fraction(1, 2);
+         /*   Fraction f1 = new Fraction(1, 2);
             Fraction f2 = f1.clone();
             System.out.println(f2.equals(f1));
-            System.out.println(f2 == f1);
+            System.out.println(f2 == f1);*/
 
-
+            Point start = new Point(1, 2);
+            Point end = new Point(10, 20);
+            Line l1 = new Line (start,end);
+            Line l2 = l1.clone();
+            System.out.println(l2.equals(l1));
+            System.out.println("l1 "+l1.toString());
+            System.out.println("l2 "+l2.toString());
+            System.out.println(l2 == l1);
         }
     }
 

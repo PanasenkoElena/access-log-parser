@@ -4,6 +4,7 @@ public class PolyLine extends Line {
     Point[] points;
 
     public PolyLine(Point... points) {
+        super();
         this.points = points;
     }
 
