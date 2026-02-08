@@ -125,10 +125,11 @@ public class Main {
             System.out.println(f2.equals(f1));
             System.out.println(f2 == f1);*/
 
-            Point start = new Point(1, 2);
-            Point end = new Point(10, 20);
-            Line l1 = new Line (start,end);
-            Line l2 = l1.clone();
+            Point p1 = new Point(1, 2);
+            Point p2 = new Point(10, 20);
+            Point p3 = new Point(100, 200);
+            PolyLine l1 = new PolyLine (p1,p2,p3);
+            PolyLine l2 = l1.clone();
             System.out.println(l2.equals(l1));
             System.out.println("l1 "+l1.toString());
             System.out.println("l2 "+l2.toString());
