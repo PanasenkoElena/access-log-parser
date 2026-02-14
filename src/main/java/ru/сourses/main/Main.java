@@ -2,6 +2,8 @@ package ru.сourses.main;
 
 import ru.сourses.geometry.*;
 import ru.сourses.math.Fraction;
+import ru.сourses.other.Sauces;
+import ru.сourses.other.Sharpness;
 
 import java.util.Scanner;
 
@@ -124,8 +126,7 @@ public class Main {
             Fraction f2 = f1.clone();
             System.out.println(f2.equals(f1));
             System.out.println(f2 == f1);*/
-
-            Point p1 = new Point(1, 2);
+            /*Point p1 = new Point(1, 2);
             Point p2 = new Point(10, 20);
             Point p3 = new Point(100, 200);
             PolyLine l1 = new PolyLine (p1,p2,p3);
@@ -134,9 +135,21 @@ public class Main {
             System.out.println("l1 "+l1.toString());
             System.out.println("l2 "+l2.toString());
             System.out.println(l2 == l1);
+       */
+
+            Sauces sause1= new Sauces("Ketchup", Sharpness.NORMAL);
+            Sauces sause2= new Sauces("Mustard", Sharpness.HOT);
+            Sauces sause3= new Sauces("Chili", Sharpness.VERY_HOT);
+            System.out.println(sause1.toString()+sause2.toString()+sause3.toString());
+            //Scanner scanner = new Scanner(System.in);
+            // String newSharpness = scanner.nextLine();
+            //String newName = scanner.nextLine();
+            // Sauces sause4 =new Sauces(newName,newSharpness); //ошибка,
+
         }
     }
-
-
 }
+
+
+
 
