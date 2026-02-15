@@ -1,9 +1,13 @@
 package ru.сourses.geometry;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public class PolyLine extends Line {
     Point[] points;
 
     public PolyLine(Point... points) {
+        super();
         this.points = points;
     }
 
@@ -33,22 +37,29 @@ public class PolyLine extends Line {
         polyLine = polyLine.substring(0, polyLine.length() - 1) + "]";
         return polyLine;
     }
-}
 
-class ClosedPolyLine extends PolyLine {
-
-    public ClosedPolyLine(Point... points) {
-        super(points);
-    }
-    public ClosedPolyLine(PolyLine polyLine) {
-        super(polyLine.points);
-    }
     @Override
-    public double getLength() {
-        double sum=0, len1, len2;
-        len1 = points[0].x - points[points.length - 1].x;
-        len2 = points[0].y - points[points.length - 1].y;
-        sum = super.getLength() + Math.sqrt(len1 * len1 + len2 * len2);
-        return sum;
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        PolyLine polyLine = (PolyLine) o;
+        return Objects.deepEquals(points, polyLine.points);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), Arrays.hashCode(points));
+    }
+private void copy(PolyLine p) {
+    p.points = this.points;
+}
+
+    @Override
+    public PolyLine clone() throws CloneNotSupportedException {
+        PolyLine newPolyLine= (PolyLine) super.clone();
+        this.copy(newPolyLine);
+        return newPolyLine;
     }
 }
+
+
