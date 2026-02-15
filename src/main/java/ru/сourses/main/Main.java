@@ -1,16 +1,12 @@
 package ru.сourses.main;
 
-import ru.сourses.geometry.*;
-import ru.сourses.math.Fraction;
-import ru.сourses.other.Sauces;
-import ru.сourses.other.Sharpness;
+import ru.сourses.math.AnyNumber;
+import ru.сourses.math.Sumable;
 
-import java.util.Scanner;
-
-import static ru.сourses.math.Pow.pow;
+import java.util.*;
 
 public class Main {
-    public static void main(String[] args) throws CloneNotSupportedException {
+    public static void main(String[] args) {
         {
             /*  double sum;
             AnyNumber n;
@@ -98,7 +94,7 @@ public class Main {
             f = new Fraction(3, 2);
             sum = f.getSum(sum);
             System.out.println("Сумма по второй строке = " + sum);
-            
+
             sum = 0;
             f = new Fraction(1, 3);
             sum = f.getSum(sum);
@@ -106,7 +102,7 @@ public class Main {
             n = new AnyNumber(1);
             sum = n.getSum(sum);
             System.out.println("Сумма по третьей строке = " + sum);*/
-          /*  Scanner scanner = new Scanner(System.in);
+            /*  Scanner scanner = new Scanner(System.in);
             System.out.println("Введите Х ");
             String x= scanner.nextLine();
             System.out.println("Введите Y ");
@@ -122,7 +118,7 @@ public class Main {
             ru.сourses.geometry.Point p2= new ru.сourses.geometry.Point(c1+1,c2+1);
             System.out.println("ru.сourses.geometry.Point = "+p2);
 */
-         /*   Fraction f1 = new Fraction(1, 2);
+            /*   Fraction f1 = new Fraction(1, 2);
             Fraction f2 = f1.clone();
             System.out.println(f2.equals(f1));
             System.out.println(f2 == f1);*/
@@ -136,20 +132,63 @@ public class Main {
             System.out.println("l2 "+l2.toString());
             System.out.println(l2 == l1);
        */
-
-            Sauces sause1= new Sauces("Ketchup", Sharpness.NORMAL);
-            Sauces sause2= new Sauces("Mustard", Sharpness.HOT);
-            Sauces sause3= new Sauces("Chili", Sharpness.VERY_HOT);
-            System.out.println(sause1.toString()+sause2.toString()+sause3.toString());
-            //Scanner scanner = new Scanner(System.in);
-            // String newSharpness = scanner.nextLine();
-            //String newName = scanner.nextLine();
-            // Sauces sause4 =new Sauces(newName,newSharpness); //ошибка,
-
+            Double sum = 0.0;
+            List<Double> summand = new ArrayList<Double>();
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Введите команду");
+            String str = scanner.nextLine();
+            if (str.contains("java Sum ")) {
+                summand = toNumbers(str);
+                sum = getSum(summand);
+            } else {
+                System.out.println("Программа завершена");
+            }
+            System.out.println(sum);
         }
-    }
-}
 
+    }
+
+    public static double getSum(List<Double> summand) {
+        double sum = 0;
+        for (int i = 0; i < summand.size(); i++) {
+            double a = summand.get(i);
+            sum += a;
+        }
+        return sum;
+    }
+
+    public static List<Double> toNumbers(String string) throws NumberFormatException {
+        String str = string.substring(9);
+        int spaceCount = 0;
+        List<String> textNumbers = new ArrayList();
+        int i;
+        for (i = 0; i < str.length(); i++) {
+            if (str.charAt(i) == ' ' && str.charAt(i + 1) != ' ') {
+                spaceCount++;
+            } else {
+                if (textNumbers.size() == spaceCount) {
+                    textNumbers.add(String.valueOf(str.charAt(i)));
+                } else {
+                    String a = textNumbers.get(spaceCount);
+                    a += (String.valueOf(str.charAt(i)));
+                    textNumbers.set(spaceCount, a);
+                }
+            }
+        }
+        List<Double> summand = new ArrayList<>();
+        for (i = 0; i < textNumbers.size(); i++) {
+            try {
+                summand.add(Double.parseDouble(String.valueOf(textNumbers.get(i))));
+                System.out.println(summand.get(summand.size() - 1));
+            } catch (NumberFormatException e) {
+                summand.add(Double.valueOf(0));
+                System.out.println("В позиции "+i+" было не число");
+            }
+        }
+        return summand;
+    }
+
+}
 
 
 
