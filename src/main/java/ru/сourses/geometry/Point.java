@@ -1,6 +1,8 @@
 package ru.сourses.geometry;
 
-public class Point {
+import java.util.Objects;
+
+public class Point implements Cloneable{
     int x, y;
 
     public Point(int x, int y) {
@@ -18,6 +20,27 @@ public class Point {
     this.y = y;
 }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Point point = (Point) o;
+        return x == point.x && y == point.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
+    }
+private void copy(Point p){
+        p.x=this.x;
+        p.y=this.y;
+}
+    @Override
+    protected Point clone() throws CloneNotSupportedException {
+      Point newPoint= (Point)super.clone();
+      this.copy(newPoint);
+      return newPoint;
+    }
 }
 
 class Point3D extends Point {
