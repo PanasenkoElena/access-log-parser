@@ -56,44 +56,10 @@ public class Main {
             System.out.println("Средний трафик в час = "+ formattedResult);
             System.out.println("Статистика за промежуток от "+statistics.getMinTime()+" до "+statistics.getMaxTime());
         }
-        return sum;
+
     }
 
-    public static List<Double> toNumbers(String string) throws NumberFormatException {
-        String str = string.substring(9);
-        int spaceCount = 0;
-        int i=0;
-        List<String> textNumbers = new ArrayList();
-        do {
-            if (i == str.length() - 1 & str.charAt(i) == ' ') {i++;continue;}
-            if (i <= str.length() - 1 & str.charAt(i) != ' ' & textNumbers.size() == spaceCount) {
-                textNumbers.add(String.valueOf(str.charAt(i)));i++;
-                continue;
-            } else if(i <= str.length() - 1 & str.charAt(i) != ' ' & textNumbers.size() > spaceCount) {
-                String a = textNumbers.get(spaceCount);
-                a += (String.valueOf(str.charAt(i)));
-                textNumbers.set(spaceCount, a); i++; continue;
-            } else if (i <= str.length() - 1 & str.charAt(i) == ' ' & str.charAt(i + 1) != ' ') {
-                spaceCount++; i++; continue;
-            } i++;
-        }
-         while (i < str.length() );
 
-        List<Double> summand = new ArrayList<>();
-        boolean isDouble = true;
-        String checkTextNumber;
-        for (i = 0; i < textNumbers.size(); i++) {
-            checkTextNumber = String.valueOf(textNumbers.get(i));
-            if (isDouble == checkTextNumber.matches("-?\\d+(\\.\\d+)?")) {
-                summand.add(Double.parseDouble(String.valueOf(textNumbers.get(i))));
-                System.out.println(summand.get(summand.size() - 1));
-            } else {
-                summand.add(Double.valueOf(0));
-                System.out.println("В позиции " + i + " было не число");
-            }
-        }
-        return summand;
-    }
 
 }
 
