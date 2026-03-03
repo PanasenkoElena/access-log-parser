@@ -21,34 +21,24 @@ public class Main {
         {
             Scanner scanner = new Scanner(System.in);
             int size = Integer.parseInt(scanner.nextLine());
-            List<Integer> list = new ArrayList<>();
+            ArrayList<Integer> list = new ArrayList<>();
             int buffer;
             for (int i = 1; i <= size; i++) {
                 list.add(i);
             }
-            for (int i = 0; i < list.size(); i += 2) {
-                buffer = list.get(i);
-                list.set(i, list.get(i + 1));
-                list.set(i + 1, buffer);
-            }
             System.out.println(list);
 
-            int[] intArray = list.stream().mapToInt(i -> i).toArray();
+            reverse(list);
+            System.out.println(list);
 
-            bubbleSort(intArray);
-            System.out.println(Arrays.toString(intArray));
         }
     }
-
-    public static void bubbleSort(int[] intArray) {
-        for (int i = 0; i < Arrays.stream(intArray).count() - 1; i++) {
-            for (int j = 0; j < Arrays.stream(intArray).count() - i - 1; j++) {
-                if (intArray[j] > intArray[j + 1]) {
-                    int temp = intArray[j];
-                    intArray[j] = intArray[j + 1];
-                    intArray[j + 1] = temp;
-                }
-            }
+    public static void reverse(ArrayList<Integer> intList) {
+        int n = intList.size() - 1;
+        for (int i = 0; i < intList.size() / 2; i++) {
+            int temp = intList.get(i);
+            intList.set(i,intList.get(n - i));
+            intList.set(n - i,temp);
         }
     }
 }
