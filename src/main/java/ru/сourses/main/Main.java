@@ -1,158 +1,60 @@
 package ru.сourses.main;
 
-import ru.сourses.math.AnyNumber;
-import ru.сourses.math.Sumable;
+import ru.сourses.parser.LineTooLongException;
+import ru.сourses.parser.LogEntry;
+import ru.сourses.parser.Statistics;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.IntStream;
 import java.util.*;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, LineTooLongException {
         {
-            /*  double sum;
-            AnyNumber n;
-            Fraction f;
-            String newName;
-            int gradesNum = 0;
-            Student newStudent = null;
-            Scanner scanner = new Scanner(System.in);
-            int[] initGrades = new int[gradesNum];
-            System.out.println("Введите имя ");
-            newName = scanner.nextLine();
-            System.out.println("Сколько оценок будет укзано для студента? ");
-            gradesNum = scanner.nextInt();
+            ArrayList<LogEntry> logEntry = new ArrayList<>();
+            String path = "";
+            System.out.println("Введите путь к файлу");
+            path = new Scanner(System.in).nextLine();
+            File file = new File(path);
+            boolean fileExists = file.exists();
+            System.out.println("fileExists= " + fileExists);
+            boolean isDirectory = file.isDirectory();
+            System.out.println("isDirectory= " + isDirectory);
+            String line;
+            Statistics statistics = new Statistics();
+            long count = 0;
             int i = 0;
-            System.out.println("Введите оценки от 2 до 5 ");
-            //заполнение массива оценок
-            for (sum = 0; i < gradesNum; i++)
-            //инициация Студента
-                newStudent = new Student(newName, initGrades);
-                System.out.println("Студент " + newStudent.toString());
-            //добавление тому же студенту оценки
-            newStudent.addGrade();
-            System.out.println("Студент " + newStudent.toString());
-            {
-                int g = scanner.nextInt();
-                if (g > 1 && g < 6) {
-                    initGrades[i] = g;
-                } else {
-                    i -= 1;
-                    System.out.println("введите оценку еще раз в диапазоне от 2 до 5");
+            try {
+                FileReader fileReader = new FileReader(file.getAbsoluteFile().getPath());
+                BufferedReader reader = new BufferedReader(fileReader);
+                var lines = Files.lines(Path.of(path));
+                count = lines.count();
+                System.out.println("Количество строк: " + count);
+                while ((line = reader.readLine()) != null) {
+                    try {
+                        logEntry.add(new LogEntry(line));
+                      //  System.out.println(logEntry.get(i).toString());
+                        statistics.addEntry(logEntry.get(i));
+                      //  System.out.println("Накопленная статистика "+ statistics.toString());
+                        i++;
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                 }
-            }*/
-            /*
-     int x = 1;
-    int y = 2;
-    int z = 3;
-    ru.сourses.geometry.Point3D p0 = new ru.сourses.geometry.Point3D(x, y, z);
-    System.out.println(p0);
-    ru.сourses.math.NewString newString = new ru.сourses.math.NewString("newStringnewStringnewStringnewString");
-    ru.сourses.geometry.Point p1 = new ru.сourses.geometry.Point(1, 0);
-    ru.сourses.geometry.Point p2 = new ru.сourses.geometry.Point(4, 3);
-    ru.сourses.geometry.Point p3 = new ru.сourses.geometry.Point(7, 6);
-    ru.сourses.geometry.Point p4 = new ru.сourses.geometry.Point(10, 9);
-
-    ru.сourses.geometry.Line l1 = new ru.сourses.geometry.Line(p1, p4);
-    ru.сourses.geometry.PolyLine pl1 = new ru.сourses.geometry.PolyLine(p1, p2, p3, p4);
-    ru.сourses.geometry.ClosedPolyLine cl1 = new ru.сourses.geometry.ClosedPolyLine(pl1);
-      System.out.println("Длина ломаной = "+pl1.getLength());
-       System.out.println("Длина замкнутой линии = "+cl1.getLength());
-    calcLength(pl1, cl1, newString);*/
-            /*ru.сourses.math.Fraction f=new ru.сourses.math.Fraction(1231,199);
-        System.out.println("f.intValue()= "+f.intValue());
-        System.out.println("f.longValue()= "+f.longValue());
-        System.out.println("f.floatValue()= "+f.floatValue());
-        System.out.println("f.doubleValue()= "+f.doubleValue());
-    }
-        public static void calcLength(ru.сourses.geometry.Measurable... measurables) {
-        int size = measurables.length;
-        double calculatedLength;
-        for (int i = 0; i <= size - 1; i++) {
-            calculatedLength = measurables[i].getLength();
-            System.out.println("Длина " + measurables[i].getCustomName() + " =" + calculatedLength);
-        }
-    }*/
-            /* n = new AnyNumber(2);
-            sum = n.getSum(sum);
-            System.out.println(sum);
-            f = new  Fraction(3, 5);
-            sum = f.getSum(sum);
-            System.out.println(sum);
-            n = new  AnyNumber(2.3);
-            sum = n.getSum(sum);
-            System.out.println("Сумма по первой строке = " + sum);
-
-            sum = 0;
-            n = new AnyNumber(3.6);
-            sum = n.getSum(sum);
-            System.out.println(sum);
-            f = new Fraction(49, 12);
-            sum = f.getSum(sum);
-            System.out.println(sum);
-            n = new AnyNumber(3);
-            sum = n.getSum(sum);
-            System.out.println(sum);
-            f = new Fraction(3, 2);
-            sum = f.getSum(sum);
-            System.out.println("Сумма по второй строке = " + sum);
-
-            sum = 0;
-            f = new Fraction(1, 3);
-            sum = f.getSum(sum);
-            System.out.println(sum);
-            n = new AnyNumber(1);
-            sum = n.getSum(sum);
-            System.out.println("Сумма по третьей строке = " + sum);*/
-            /*  Scanner scanner = new Scanner(System.in);
-            System.out.println("Введите Х ");
-            String x= scanner.nextLine();
-            System.out.println("Введите Y ");
-            String y= scanner.nextLine();
-
-            double power = pow(x,y);
-            System.out.println("X в степени Y ="+power);
-
-            int c1=Integer.parseInt(x);
-            int c2=Integer.parseInt(y);
-            Point p1= new Point(c1,c2);
-            System.out.println("awt.Point = "+p1);
-            ru.сourses.geometry.Point p2= new ru.сourses.geometry.Point(c1+1,c2+1);
-            System.out.println("ru.сourses.geometry.Point = "+p2);
-*/
-            /*   Fraction f1 = new Fraction(1, 2);
-            Fraction f2 = f1.clone();
-            System.out.println(f2.equals(f1));
-            System.out.println(f2 == f1);*/
-            /*Point p1 = new Point(1, 2);
-            Point p2 = new Point(10, 20);
-            Point p3 = new Point(100, 200);
-            PolyLine l1 = new PolyLine (p1,p2,p3);
-            PolyLine l2 = l1.clone();
-            System.out.println(l2.equals(l1));
-            System.out.println("l1 "+l1.toString());
-            System.out.println("l2 "+l2.toString());
-            System.out.println(l2 == l1);
-       */
-            Double sum = 0.0;
-            List<Double> summand = new ArrayList<Double>();
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("Введите команду");
-            String str = scanner.nextLine();
-            if (str.contains("java Sum ")) {
-                summand = toNumbers(str);
-                sum = getSum(summand);
-            } else {
-                System.out.println("Программа завершена");
+            } catch (IOException e) {
             }
-            System.out.println(sum);
-        }
-
-    }
-
-    public static double getSum(List<Double> summand) {
-        double sum = 0;
-        for (int i = 0; i < summand.size(); i++) {
-            double a = summand.get(i);
-            sum += a;
+            java.text.DecimalFormat df = new java.text.DecimalFormat("###.##");
+            String formattedResult = df.format(statistics.getTrafficRate());
+            System.out.println("Средний трафик в час = "+ formattedResult);
+            System.out.println("Статистика за промежуток от "+statistics.getMinTime()+" до "+statistics.getMaxTime());
         }
         return sum;
     }
