@@ -18,8 +18,7 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException, LineTooLongException {
-        {
-            ArrayList<LogEntry> logEntry = new ArrayList<>();
+        {           ArrayList<LogEntry> logEntry = new ArrayList<>();
             String path = "";
             System.out.println("Введите путь к файлу");
             path = new Scanner(System.in).nextLine();
@@ -29,6 +28,7 @@ public class Main {
             boolean isDirectory = file.isDirectory();
             System.out.println("isDirectory= " + isDirectory);
             String line;
+
             Statistics statistics = new Statistics();
             long count = 0;
             int i = 0;
@@ -55,6 +55,9 @@ public class Main {
             String formattedResult = df.format(statistics.getTrafficRate());
             System.out.println("Средний трафик в час = "+ formattedResult);
             System.out.println("Статистика за промежуток от "+statistics.getMinTime()+" до "+statistics.getMaxTime());
+            statistics.getOsShare();
+            statistics.osShare.forEach((os, share) ->
+                    System.out.printf("ОС: %s, Доля: %.2f%%%n", os, (Double) share * 100));
         }
 
     }

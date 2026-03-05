@@ -14,6 +14,7 @@ public class LogEntry {
     final int responseSize, responseCode;
     final UserAgent userAgent;
 
+
     public LogEntry(String line) {
         this.time = takeTime(line);
         this.method = takeMethod(line);
@@ -22,6 +23,7 @@ public class LogEntry {
         this.responseCode = takeCode(line);
         this.responseSize = takeResponseSize(line);
         this.referer = takeReferer(line);
+
 
         int lastQuote = line.lastIndexOf("\"");
         int prevQuote = line.lastIndexOf("\"", lastQuote - 1);
@@ -152,6 +154,7 @@ public class LogEntry {
         }
         return referer;
     }
+
 
     @Override
     public String toString() {

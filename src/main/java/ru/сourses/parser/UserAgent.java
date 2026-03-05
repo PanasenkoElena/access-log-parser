@@ -26,7 +26,6 @@ final String os;
     private String takeBrowser(String str) throws NullPointerException {
      try {
          if (str.contains("OPR/") || str.contains("Opera/")) return "Opera";
-
         if (str.contains("Firefox/")) return "Firefox";
         if (str.contains("Edge/")) return "Edge";
         if (str.contains("Chrome/")) return "Chrome";
