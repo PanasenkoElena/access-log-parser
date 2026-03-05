@@ -13,6 +13,10 @@ public class Statistics {
     public HashSet<String> page;
     HashMap<String, Integer> osCount;
     public HashMap<String, Double> osShare;
+    public HashSet <String> missingPage;
+    HashMap<String, Integer> browserCount;
+    HashMap<String, Double> browserShare;
+
 
     @Override
     public String toString() {
@@ -33,7 +37,9 @@ public class Statistics {
         this.page = new HashSet<>();
         this.osShare=new HashMap<>();
         this.osCount=new HashMap<>();
-
+        this.missingPage = new HashSet<>();
+        this.browserCount=new HashMap<>();
+        this.browserShare=new HashMap<>();
     }
     public LocalDateTime getMaxTime() {
         return maxTime;
@@ -66,10 +72,21 @@ public class Statistics {
         if (logEntry.userAgent.os != null) {
             if (osCount.keySet().contains(logEntry.userAgent.os)) {
                 int count = this.osCount.get(logEntry.userAgent.os);
-                this.osCount.put(logEntry.userAgent.os, count+1);
+                this.osCount.put(logEntry.userAgent.os, count + 1);
             } else {
                 this.osCount.put(logEntry.userAgent.os, 1);
             }
+        }
+        if (logEntry.userAgent.browser != null) {
+            if (browserCount.keySet().contains(logEntry.userAgent.browser)) {
+                int count = this.browserCount.get(logEntry.userAgent.browser);
+                this.browserCount.put(logEntry.userAgent.browser, count + 1);
+            } else {
+                this.browserCount.put(logEntry.userAgent.browser, 1);
+            }
+        }
+        if (logEntry.responseCode == 404) {
+            missingPage.add(logEntry.path);
         }
     }
 
@@ -82,6 +99,16 @@ public class Statistics {
         return trafficRate;
 
     }
+    public HashMap<String, Double> getBrowserShare(){
+        int total = 0;
+        for (int count : this.browserCount.values()) {
+            total += count;}
+        for (Map.Entry<String, Integer> entry : this.browserCount.entrySet()) {
+            String browser= entry.getKey();
+            int q= entry.getValue();
+            double share = (double) q / total;
+            this.browserShare.put(browser, share); }
+        return browserShare;}
 
     public HashMap<String, Double> getOsShare(){
         int total = 0;
@@ -94,10 +121,8 @@ public class Statistics {
             this.osShare.put(os, share); }
         return osShare;}
 
-
-
-
-
-
+    public HashSet<String> getMissingPage() {
+        return missingPage;
+    }
 }
 

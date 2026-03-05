@@ -58,6 +58,12 @@ public class Main {
             statistics.getOsShare();
             statistics.osShare.forEach((os, share) ->
                     System.out.printf("ОС: %s, Доля: %.2f%%%n", os, (Double) share * 100));
+            statistics.getBrowserShare();
+            statistics.osShare.forEach((browser, share) ->
+                    System.out.printf("Браузер: %s, Доля: %.2f%%%n", browser, (Double) share * 100));
+           // statistics.missingPage.forEach(() ->
+           //         System.out.print("Браузер: %s, Доля: %.2f%%%n", browser, (Double) share * 100));
+            System.out.println(statistics.getMissingPage());
         }
 
     }
