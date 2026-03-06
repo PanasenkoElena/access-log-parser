@@ -5,12 +5,15 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Statistics {
     public HashMap<String, Double> osShare;
     HashSet<String> page;
     HashSet<String> missingPage;
+    HashSet<String> referers;
     long totalTraffic;
     LocalDateTime maxTime;
     LocalDateTime minTime;
@@ -19,9 +22,11 @@ public class Statistics {
     HashMap<String, Double> browserShare;
     HashMap<String, Double> uniqueUserVisitRate;
     HashMap<String, Integer> singleUserVisits;
+    HashMap<String, Integer> mostActiveUserVisits;
+    HashMap<Integer, Integer>  userVisitsPerSec;
     long userVisitsCount, uniqueUserVisitCount;
     int errorCount;
-   public double errorRate, UniqueUserVisitRate;
+   public double errorRate, UniqueUserVisitRate, peakTrafficPerSec;
 
     public Statistics() {
         this.totalTraffic = 0;
@@ -34,11 +39,15 @@ public class Statistics {
         this.browserCount = new HashMap<>();
         this.browserShare = new HashMap<>();
         this.uniqueUserVisitRate  = new HashMap<>();
+        this.userVisitsPerSec= new HashMap<>();
         this.singleUserVisits= new HashMap<>();
+        this.mostActiveUserVisits= new HashMap<>();
         this.userVisitsCount = 0;
         this.uniqueUserVisitCount=0;
         this.errorCount = 0;
         this.errorRate = 0;
+        this.peakTrafficPerSec=0;
+        this.referers=new HashSet<>();
     }
 
     @Override
@@ -66,17 +75,18 @@ public class Statistics {
     public LocalDateTime getMaxTime() {
         return maxTime;
     }
-
     public void setMaxTime(LocalDateTime maxTime) {
         this.maxTime = maxTime;
     }
-
     public LocalDateTime getMinTime() {
         return minTime;
     }
-
     public void setMinTime(LocalDateTime minTime) {
         this.minTime = minTime;
+    }
+
+    public HashSet<String> getReferers() {
+        return referers;
     }
 
     public void addEntry(LogEntry logEntry) {
@@ -129,8 +139,17 @@ public class Statistics {
                 singleUserVisits.put(logEntry.ipAdr, 1);
                 uniqueUserVisitCount++;
             }
+          int  second = logEntry.time.getSecond();
+            if (userVisitsPerSec.containsKey(second)) {
+                int visitsPerSec = userVisitsPerSec.get(second);
+                userVisitsPerSec.put(second, visitsPerSec + 1);
+            } else {
+                {
+                    userVisitsPerSec.put(second, 1);
+                }
+            }
         }
-
+        if (logEntry.referer!="-") {referers.add(logEntry.referer);}
     }
 
 
@@ -144,13 +163,12 @@ public class Statistics {
         return trafficRate;
 
     }
-
     public HashMap<String, Double> getBrowserShare() {
         int total = 0;
         for (int count : this.browserCount.values()) {
             total += count;
         }
-        for (Map.Entry<String, Integer> entry : this.browserCount.entrySet()) {
+        for (Entry<String, Integer> entry : this.browserCount.entrySet()) {
             String browser = entry.getKey();
             int q = entry.getValue();
             double share = (double) q / total;
@@ -158,13 +176,12 @@ public class Statistics {
         }
         return browserShare;
     }
-
     public HashMap<String, Double> getOsShare() {
         int total = 0;
         for (int count : this.osCount.values()) {
             total += count;
         }
-        for (Map.Entry<String, Integer> entry : this.osCount.entrySet()) {
+        for (Entry<String, Integer> entry : this.osCount.entrySet()) {
             String os = entry.getKey();
             int q = entry.getValue();
             double share = (double) q / total;
@@ -172,11 +189,9 @@ public class Statistics {
         }
         return osShare;
     }
-
     public HashSet<String> getMissingPage() {
         return missingPage;
     }
-
     public double getUserVisitRate() {
         double userVisitRate = 0;
         long hours = ChronoUnit.HOURS.between(minTime, maxTime);
@@ -184,26 +199,42 @@ public class Statistics {
 
         return userVisitRate;
     }
-
-
     public double getErrorRate(){
                long hours = ChronoUnit.HOURS.between(minTime, maxTime);
         this.errorRate = (double) this.errorCount / hours;
         return this.errorRate;
     }
-
     public HashMap<String, Double> getUniqueUserVisitRate() {
         if (uniqueUserVisitCount > 0) {
             uniqueUserVisitRate = singleUserVisits.
                     entrySet().
                     stream().
-                    collect(Collectors.toMap(Map.Entry::getKey,
+                    collect(Collectors.toMap(Entry::getKey,
                             entry -> Math.round((double) entry.getValue() / uniqueUserVisitCount * 10000.0) / 10000.0,
                             (existing, replacement) -> existing, // на случай конфликтов
                     HashMap::new));
         }
         return uniqueUserVisitRate;
 
+    }
+
+    public Optional<Entry<Integer, Integer>> getPeakTrafficPerSec(){
+        Optional<Entry<Integer, Integer>> peakEntry =  userVisitsPerSec.
+                entrySet()
+                .stream()
+                .sorted(Entry.<Integer, Integer>comparingByValue().reversed())
+                .findFirst();
+
+        return peakEntry;
+    }
+public Optional<Entry<String, Integer>> getmostActiveUserVisits(){
+        Optional<Entry<String, Integer>> mostActiveUserVisits= singleUserVisits
+                .entrySet()
+                .stream()
+                .sorted(Entry.<String, Integer>comparingByValue().reversed())
+                .findFirst();
+
+        return mostActiveUserVisits;
     }
 
 }

@@ -161,11 +161,14 @@ public class LogEntry {
     }
 
     private String takeReferer(String line) {
-        String referer = "-";
+        String referer = null;
         try {
             int start = range(0, line.length()).filter(i -> line.charAt(i) == '"').toArray()[2];
             int end = range(0, line.length()).filter(i -> line.charAt(i) == '"').toArray()[3];
             referer = line.substring(start + 1, end);
+            if (!referer.equals("-")){
+            referer = new java.net.URI(referer).getHost();
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

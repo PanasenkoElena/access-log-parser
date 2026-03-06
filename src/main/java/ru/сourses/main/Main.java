@@ -67,6 +67,10 @@ public class Main {
 
             System.out.println("Среднее количество ошибочных запросов в час "+statistics.getErrorRate());
            System.out.println("Среднее посещаемость каждым пользователем в час "+statistics.getUniqueUserVisitRate());
+
+            System.out.println("Пиковая посещаемость сайта (в секунду)"+ statistics.getPeakTrafficPerSec());
+            System.out.println("Максимальная посещаемость одного пользователя "+ statistics.getmostActiveUserVisits());
+            System.out.println("Cписок сайтов, со страниц которых есть ссылки на текущий сайт "+statistics.getReferers());
         }
 
     }
