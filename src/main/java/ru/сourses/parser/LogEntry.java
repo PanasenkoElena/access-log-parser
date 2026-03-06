@@ -13,6 +13,7 @@ public class LogEntry {
     final String ipAdr, path, referer;
     final int responseSize, responseCode;
     final UserAgent userAgent;
+    final boolean isBot;
 
 
     public LogEntry(String line) {
@@ -23,6 +24,7 @@ public class LogEntry {
         this.responseCode = takeCode(line);
         this.responseSize = takeResponseSize(line);
         this.referer = takeReferer(line);
+        this.isBot = isBot(line);
 
 
         int lastQuote = line.lastIndexOf("\"");
@@ -33,7 +35,9 @@ public class LogEntry {
             if (lastQuote != -1 && prevQuote != -1) {
                 String str = line.substring(prevQuote + 1, lastQuote);
                 this.userAgent = new UserAgent(str);
-            } else {this.userAgent = new UserAgent();}
+            } else {
+                this.userAgent = new UserAgent();
+            }
         }
 
     }
@@ -41,30 +45,37 @@ public class LogEntry {
     public LocalDateTime getTime() {
         return time;
     }
+
     public HttpMethod getMethod() {
         return method;
     }
+
     public String getIpAdr() {
         return ipAdr;
     }
+
     public String getPath() {
         return path;
     }
+
     public int getResponseCode() {
         return responseCode;
     }
+
     public int getResponseSize() {
         return responseSize;
     }
+
     public String getReferer() {
         return referer;
     }
+
     public UserAgent getUserAgent() {
         return userAgent;
     }
 
     private LocalDateTime takeTime(String line) {
-        LocalDateTime time=null;
+        LocalDateTime time = null;
         try {
             int start = line.indexOf('[');
             int end = line.indexOf(']');
@@ -78,6 +89,7 @@ public class LogEntry {
         }
         return time;
     }
+
     private HttpMethod takeMethod(String line) {
         HttpMethod draftMethod = null;
         try {
@@ -92,13 +104,14 @@ public class LogEntry {
         }
         return draftMethod;
     }
-    private String takeIpAdr(String line){
-        String ipAdr="";
+
+    private String takeIpAdr(String line) {
+        String ipAdr = "";
         try {
             int start = 0;
             int end = line.indexOf(" ", start + 1);
             if (end != -1 && end > start) {
-                ipAdr= line.substring(start, end);
+                ipAdr = line.substring(start, end);
                 ipAdr = ipAdr.replaceAll("[ /:+]", "");
             }
         } catch (Exception e) {
@@ -106,67 +119,67 @@ public class LogEntry {
         }
         return ipAdr;
     }
-    private String takePath(String line){
-       String path="";
-       try {
-            int start = line.indexOf("/", line.indexOf("\"")+1);
+
+    private String takePath(String line) {
+        String path = "";
+        try {
+            int start = line.indexOf("/", line.indexOf("\"") + 1);
             int end = line.indexOf(" ", start + 1);
             if (end != -1 && end > start) {
-                path= line.substring(start, end+1);
+                path = line.substring(start, end + 1);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         return path;
     }
-    private int takeCode(String line){
-        int code=0;
+
+    private int takeCode(String line) {
+        int code = 0;
         try {
-            int start = line.indexOf("\"", line.indexOf("\"")+1)+1;
+            int start = line.indexOf("\"", line.indexOf("\"") + 1) + 1;
             int end = start + 3;
             if (start != -1 && end > start) {
-                code= Integer.parseInt(line.substring(start+1, end+1));
+                code = Integer.parseInt(line.substring(start + 1, end + 1));
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         return code;
     }
-    private int takeResponseSize(String line){
-        int size=0;
+
+    private int takeResponseSize(String line) {
+        int size = 0;
         try {
-            int start = range(0, line.length()).filter(i -> line.charAt(i) ==' ').toArray()[8];
-            int end= range(0, line.length()).filter(i -> line.charAt(i) == ' ').toArray()[9];
-            size=Integer.parseInt(line.substring(start+1, end));
+            int start = range(0, line.length()).filter(i -> line.charAt(i) == ' ').toArray()[8];
+            int end = range(0, line.length()).filter(i -> line.charAt(i) == ' ').toArray()[9];
+            size = Integer.parseInt(line.substring(start + 1, end));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         return size;
     }
-    private String takeReferer(String line){
-       String referer="-";
+
+    private String takeReferer(String line) {
+        String referer = "-";
         try {
-            int start = range(0, line.length()).filter(i -> line.charAt(i) =='"').toArray()[2];
-            int end= range(0, line.length()).filter(i -> line.charAt(i) == '"').toArray()[3];
-            referer=line.substring(start+1, end);
+            int start = range(0, line.length()).filter(i -> line.charAt(i) == '"').toArray()[2];
+            int end = range(0, line.length()).filter(i -> line.charAt(i) == '"').toArray()[3];
+            referer = line.substring(start + 1, end);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         return referer;
     }
 
-
-    @Override
-    public String toString() {
-        return "LogEntry{" +
-                "time=" + time +
-                ", method=" + method +
-                ", ipAdr='" + ipAdr + '\'' +
-                ", path='" + path + '\'' +
-                ", referer='" + referer + '\'' +
-                ", responseSize=" + responseSize +
-                ", responseCode=" + responseCode +
-                ", userAgent=" + userAgent +
-                '}';
+    private boolean isBot(String line) {
+        boolean isBot = false;
+        if (line.contains("Bot")) {
+            isBot = false;
+        } else {
+            isBot = true;
+        }
+        return isBot;
     }
 }
+

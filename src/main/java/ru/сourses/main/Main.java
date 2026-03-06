@@ -55,15 +55,18 @@ public class Main {
             String formattedResult = df.format(statistics.getTrafficRate());
             System.out.println("Средний трафик в час = "+ formattedResult);
             System.out.println("Статистика за промежуток от "+statistics.getMinTime()+" до "+statistics.getMaxTime());
+
             statistics.getOsShare();
             statistics.osShare.forEach((os, share) ->
                     System.out.printf("ОС: %s, Доля: %.2f%%%n", os, (Double) share * 100));
             statistics.getBrowserShare();
             statistics.osShare.forEach((browser, share) ->
                     System.out.printf("Браузер: %s, Доля: %.2f%%%n", browser, (Double) share * 100));
-           // statistics.missingPage.forEach(() ->
-           //         System.out.print("Браузер: %s, Доля: %.2f%%%n", browser, (Double) share * 100));
             System.out.println(statistics.getMissingPage());
+            System.out.println("Среднее количество посещений в час "+statistics.getUserVisitRate());
+
+            System.out.println("Среднее количество ошибочных запросов в час "+statistics.getErrorRate());
+           System.out.println("Среднее посещаемость каждым пользователем в час "+statistics.getUniqueUserVisitRate());
         }
 
     }

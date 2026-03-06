@@ -5,54 +5,80 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Statistics {
+    public HashMap<String, Double> osShare;
+    HashSet<String> page;
+    HashSet<String> missingPage;
     long totalTraffic;
     LocalDateTime maxTime;
     LocalDateTime minTime;
-    public HashSet<String> page;
     HashMap<String, Integer> osCount;
-    public HashMap<String, Double> osShare;
-    public HashSet <String> missingPage;
     HashMap<String, Integer> browserCount;
     HashMap<String, Double> browserShare;
+    HashMap<String, Double> uniqueUserVisitRate;
+    HashMap<String, Integer> singleUserVisits;
+    long userVisitsCount, uniqueUserVisitCount;
+    int errorCount;
+   public double errorRate, UniqueUserVisitRate;
 
+    public Statistics() {
+        this.totalTraffic = 0;
+        this.maxTime = null;
+        this.minTime = null;
+        this.page = new HashSet<>();
+        this.osShare = new HashMap<>();
+        this.osCount = new HashMap<>();
+        this.missingPage = new HashSet<>();
+        this.browserCount = new HashMap<>();
+        this.browserShare = new HashMap<>();
+        this.uniqueUserVisitRate  = new HashMap<>();
+        this.singleUserVisits= new HashMap<>();
+        this.userVisitsCount = 0;
+        this.uniqueUserVisitCount=0;
+        this.errorCount = 0;
+        this.errorRate = 0;
+    }
 
     @Override
     public String toString() {
         return "Statistics{" +
-                "totalTraffic=" + totalTraffic +
+                "osShare=" + osShare +
+                ", page=" + page +
+                ", missingPage=" + missingPage +
+                ", totalTraffic=" + totalTraffic +
                 ", maxTime=" + maxTime +
                 ", minTime=" + minTime +
-                ", page=" + page +
                 ", osCount=" + osCount +
-                ", osShare=" + osShare +
+                ", browserCount=" + browserCount +
+                ", browserShare=" + browserShare +
+                ", uniqueUserVisitRate=" + uniqueUserVisitRate +
+                ", singleUserVisits=" + singleUserVisits +
+                ", userVisitsCount=" + userVisitsCount +
+                ", uniqueUserVisitCount=" + uniqueUserVisitCount +
+                ", errorCount=" + errorCount +
+                ", errorRate=" + errorRate +
+                ", UniqueUserVisitRate=" + UniqueUserVisitRate +
                 '}';
     }
 
-    public Statistics() {
-        this.totalTraffic = 0;
-        this.maxTime =null;
-        this.minTime = null;
-        this.page = new HashSet<>();
-        this.osShare=new HashMap<>();
-        this.osCount=new HashMap<>();
-        this.missingPage = new HashSet<>();
-        this.browserCount=new HashMap<>();
-        this.browserShare=new HashMap<>();
-    }
     public LocalDateTime getMaxTime() {
         return maxTime;
     }
+
     public void setMaxTime(LocalDateTime maxTime) {
         this.maxTime = maxTime;
     }
+
     public LocalDateTime getMinTime() {
         return minTime;
     }
+
     public void setMinTime(LocalDateTime minTime) {
         this.minTime = minTime;
     }
+
     public void addEntry(LogEntry logEntry) {
         this.totalTraffic += logEntry.responseSize;
         if (minTime == null && maxTime == null) {
@@ -88,41 +114,99 @@ public class Statistics {
         if (logEntry.responseCode == 404) {
             missingPage.add(logEntry.path);
         }
+        if (logEntry.isBot == true) this.userVisitsCount = userVisitsCount + 1;
+
+        int errorcode = logEntry.responseCode / 100;
+        if (errorcode == 4 || errorcode == 5) {
+            this.errorCount = this.errorCount + 1;
+        }
+
+        if (logEntry.isBot == false) {
+            if (this.singleUserVisits.keySet().contains(logEntry.ipAdr)) {
+                int visits = this.singleUserVisits.get(logEntry.ipAdr);
+                singleUserVisits.put(logEntry.ipAdr, visits + 1);
+            } else {
+                singleUserVisits.put(logEntry.ipAdr, 1);
+                uniqueUserVisitCount++;
+            }
+        }
+
     }
 
+
     public double getTrafficRate() {
-        double trafficRate =0;
+        double trafficRate = 0;
         long hours = ChronoUnit.HOURS.between(minTime, maxTime);
         trafficRate = (double) this.totalTraffic / hours;
         if (hours > 0) {
-        trafficRate = Math.round(((double) this.totalTraffic / hours)* 100.0) / 100.0;}
+            trafficRate = Math.round(((double) this.totalTraffic / hours) * 100.0) / 100.0;
+        }
         return trafficRate;
 
     }
-    public HashMap<String, Double> getBrowserShare(){
+
+    public HashMap<String, Double> getBrowserShare() {
         int total = 0;
         for (int count : this.browserCount.values()) {
-            total += count;}
+            total += count;
+        }
         for (Map.Entry<String, Integer> entry : this.browserCount.entrySet()) {
-            String browser= entry.getKey();
-            int q= entry.getValue();
+            String browser = entry.getKey();
+            int q = entry.getValue();
             double share = (double) q / total;
-            this.browserShare.put(browser, share); }
-        return browserShare;}
+            this.browserShare.put(browser, share);
+        }
+        return browserShare;
+    }
 
-    public HashMap<String, Double> getOsShare(){
+    public HashMap<String, Double> getOsShare() {
         int total = 0;
         for (int count : this.osCount.values()) {
-            total += count;}
+            total += count;
+        }
         for (Map.Entry<String, Integer> entry : this.osCount.entrySet()) {
-           String os= entry.getKey();
-           int q= entry.getValue();
+            String os = entry.getKey();
+            int q = entry.getValue();
             double share = (double) q / total;
-            this.osShare.put(os, share); }
-        return osShare;}
+            this.osShare.put(os, share);
+        }
+        return osShare;
+    }
 
     public HashSet<String> getMissingPage() {
         return missingPage;
     }
+
+    public double getUserVisitRate() {
+        double userVisitRate = 0;
+        long hours = ChronoUnit.HOURS.between(minTime, maxTime);
+        userVisitRate = (double) this.userVisitsCount / hours;
+
+        return userVisitRate;
+    }
+
+
+    public double getErrorRate(){
+               long hours = ChronoUnit.HOURS.between(minTime, maxTime);
+        this.errorRate = (double) this.errorCount / hours;
+        return this.errorRate;
+    }
+
+    public HashMap<String, Double> getUniqueUserVisitRate() {
+        if (uniqueUserVisitCount > 0) {
+            uniqueUserVisitRate = singleUserVisits.
+                    entrySet().
+                    stream().
+                    collect(Collectors.toMap(Map.Entry::getKey,
+                            entry -> Math.round((double) entry.getValue() / uniqueUserVisitCount * 10000.0) / 10000.0,
+                            (existing, replacement) -> existing, // на случай конфликтов
+                    HashMap::new));
+        }
+        return uniqueUserVisitRate;
+
+    }
+
 }
+
+
 
